@@ -28,6 +28,7 @@ export function saveDatas(mList) {
         localStorage.setItem(mObj.url, JSON.stringify(mObj));
     }
 }
+
 export function getDatas() {
     var mList = [];
     for (var i in window.localStorage) {
@@ -35,6 +36,19 @@ export function getDatas() {
     }
     return mList;
 }
+
+export function getDataIndex() {
+    var mList = {};
+    for (var i in window.localStorage) {
+        mList[i] = window.localStorage[i];
+    }
+    return mList;
+}
+
+export function clearStorage() {
+    localStorage.clear()
+}
+
 //不存在返回-1
 export function getCount(url) {
     if (hasData(url)) {
@@ -47,6 +61,7 @@ export function getCount(url) {
 function addCount(url) {
     if (hasData(url)) {
         var mData=JSON.parse(localStorage.getItem(url));
+        mData.lastVisitTime = new Date().getTIme();
         mData.count++;
         localStorage.setItem(url,JSON.stringify(mData));
     }

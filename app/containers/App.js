@@ -6,6 +6,8 @@ import ATYFooter from '../components/Footer';
 import MainSection from '../components/MainSection';
 import * as TodoActions from '../actions/todos';
 import { Layout} from 'antd';
+import { getHistory, getTodayHistory } from '../utils/history'
+import { getDatas, saveDatas, clearStorage } from '../utils/storage'
 
 @connect(
   state => ({
@@ -27,6 +29,16 @@ export default class App extends Component {
     this.state = {
       mode: 0 //0, 1, 2
     }
+  }
+
+  componentDidMount() {
+    const storageList = getDatas()
+    if (storageList.length === 0) {
+        getTodayHistory().then(history => {
+            saveDatas(history)
+        })
+    }
+    console.log('storageList', storageList.length)
   }
 
   changeMode(item) {

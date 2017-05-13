@@ -3,39 +3,54 @@ import { render } from 'react-dom';
 import Dock from 'react-dock';
 import $ from 'jquery';
 import '../../app/assets/global.scss'
+import moment from 'moment'
+import { getDatas, saveDatas, getCount, addCount, hasData } from '../../app/utils/storage.js'
+
+moment.locale('zh-cn');
 
 class InjectApp extends Component {
   constructor(props) {
     super(props);
-    this.state = { isVisible: false, ALinks: [] };
-  }
+    this.state = { isVisible: false, ALinks: [], data: {} };
+}
 
   componentDidMount() {
-    document.onkeydown = (e) => {
-      console.log(e)
-      if (e.key === 'Z') {
-        if (this.state.ALinks.length === 0) {
-          this.searchA()
-        } else {
-          this.setState({
-            ALinks: []
-          })
-        }
-      }
-    };
+      chrome.runtime.sendMessage({greeting: "hello"}, (response) => {
+          const nxState = Object.assign({}, this.state)
+          nxState.data = response.farewell
+          this.setState(nxState)
+      });
+      document.onkeydown = (e) => {
+          if (e.key === 'Z') {
+              if (this.state.ALinks.length === 0) {
+                  this.searchA()
+              } else {
+                  this.setState({
+                      ALinks: []
+                  })
+              }
+          }
+      };
   }
 
   searchA() {
-    var ALinks = [];
-    $("a").each(function() {
-      ALinks.push({
-        obj: $(this),
-        href: $(this).attr("href")
+      let ALinks = [];
+      let links = $("a");
+      links.map((key) => {
+          ALinks.push({
+              obj: $(links[key]),
+              href: $(links[key]).attr("href")
+          });
+          $(links[key]).bind("click", (evt) => {
+              console.log(evt, $(links[key]).attr("href"))
+              chrome.runtime.sendMessage({href: $(links[key]).attr("href")}, (response) => {
+                  console.log(response)
+              });
+          })
       });
-    });
-    this.setState({
-      ALinks
-    })
+      this.setState({
+          ALinks
+      })
   }
 
   buttonOnClick = () => {
@@ -44,22 +59,25 @@ class InjectApp extends Component {
 
   render() {
     const ALinks = this.state.ALinks;
+    const data = this.state.data;
     return (
       <div>
         <div className="ayf-links">
           {
             ALinks.map((link, index) => {
-              const position = link.obj.offset()
+                const position = link.obj.offset()
+                const hasData = typeof link.href !== 'undefined' && data[link.href] !== 'undefined'  && typeof data[link.href] !== 'undefined'
+                const target = hasData ? JSON.parse(data[link.href]) : {}
               return (
                 <div
                   key={index} 
-                  className="ayf-link-item" 
+                  className={hasData ? 'ayf-link-item active' : 'ayf-link-item'}
                   style={{
                     top: position.top + 15,
                     left: position.left
                   }}
                 >
-                  {link.href}
+                  {hasData ? `访问${target.visitCount}次: 最后访问于${moment(target.lastVisitTime).fromNow()}` : '未访问'}
                 </div>
               )
             })

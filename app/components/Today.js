@@ -7,6 +7,7 @@ import { TodayLinesOptions, TodayPieOptions } from '../chartOptions/todayCharts'
 import { getTodayHistory } from '../utils/history'
 import { groupByDay, sortByDomain, sortByUrl, computHour } from '../utils/utils'
 import moment from 'moment'
+import { getDatas, saveDatas } from '../utils/storage'
 
 moment.locale('zh-cn');
 
@@ -32,7 +33,6 @@ export default class TodayPage extends Component {
       this._pieCTX = document.getElementById("pie");
       this._pieChart = new Chart(this._pieCTX, TodayPieOptions);
       getTodayHistory().then(history => {
-        //   console.log(history.length)
           // const todayTimes = groupByDay(history)
           // console.log('todayTimes', todayTimes)
           const urlList = sortByUrl(history)
@@ -55,7 +55,6 @@ export default class TodayPage extends Component {
 
   updateLineChart(history) {
         const {hourLabels, hourData} = computHour(history)
-        console.log(hourLabels, hourData)
         this._lineChart.data.labels = hourLabels
         this._lineChart.data.datasets[0].data = hourData
         this._lineChart.update()

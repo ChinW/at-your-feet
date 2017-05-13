@@ -16,7 +16,6 @@ export default class MainSection extends Component {
   }
 
   switchPage() {
-      console.log('switchPage', this.props.mode)
       switch(this.props.mode) {
           case 0:
           return <TodayPage />;
@@ -28,7 +27,6 @@ export default class MainSection extends Component {
   }
 
   render() {
-      console.log(this.props.mode)
       return (
           <Content style={{ padding: '30px', marginTop: 64 }}>
               <div className="main-section">

@@ -101,8 +101,7 @@ export const sortByTime = (mList) => {
 }
 
 export const computHour = (mList) => {
-    mList = sortByTime(mList);
-    console.log('mList', mList)
+    mList = sortByTime(mList)
     var tmp = [];
 
     var mDate = new Date();

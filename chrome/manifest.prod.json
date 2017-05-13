@@ -1,6 +1,6 @@
 {
   "version": "0.0.0",
-  "name": ""踪迹 At Your Feet",
+  "name": "踪迹 At Your Feet",
   "manifest_version": 2,
   "description": "踪迹 At Your Feet",
   "browser_action": {
@@ -26,7 +26,6 @@
     "contentSettings",
     "contextMenus",
     "cookies",
-    "fileBrowserHandler",
     "history",
     "idle",
     "management",
