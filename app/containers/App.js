@@ -17,16 +17,34 @@ import { Layout} from 'antd';
 )
 
 export default class App extends Component {
-
   static propTypes = {
 
   };
 
+  constructor(props) {
+    super(props)
+    this.changeMode = this.changeMode.bind(this)
+    this.state = {
+      mode: 0 //0, 1, 2
+    }
+  }
+
+  changeMode(item) {
+    console.log('changeMode', item)
+    this.setState({
+      mode: parseInt(item.key)
+    })
+  }
+
   render() {
     return (
         <Layout>
-            <AYTHeader />
-            <MainSection />
+            <AYTHeader
+              changeMode={this.changeMode}
+             />
+            <MainSection
+              mode={this.state.mode}
+             />
             <ATYFooter />
         </Layout>
     );

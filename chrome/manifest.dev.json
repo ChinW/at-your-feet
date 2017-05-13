@@ -12,18 +12,11 @@
     "48": "img/icon-48.png",
     "128": "img/icon-128.png"
   },
-  "content_scripts": [
-    {
-      "matches": ["http://*/*", "https://*/*"],
-      "css": ["content/content.css"],
-      "js": ["content/content.js"]
-    }
-  ],
   "web_accessible_resources": [
     "inject.html"
   ],
   "background": {
-     "scripts": ["background.js"]
+     "page": "background.html"
   },
   "permissions": [
     "bookmarks",

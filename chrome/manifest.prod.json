@@ -7,13 +7,6 @@
     "default_title": "踪迹 At Your Feet",
     "default_popup": "popup.html"
   },
-  "content_scripts": [
-    {
-      "matches": ["http://*/*", "https://*/*"],
-      "css": ["content/content.css"],
-      "js": ["content/content.js"]
-    }
-  ],
   "icons": {
     "16": "img/icon-16.png",
     "48": "img/icon-48.png",
@@ -23,7 +16,7 @@
     "inject.html"
   ],
   "background": {
-    "scripts": ["background.js"]
+     "page": "background.html"
   },
   "permissions": [
     "bookmarks",

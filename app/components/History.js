@@ -1,16 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import { Layout, Menu, Breadcrumb, Table } from 'antd';
+import { Layout, Menu, Breadcrumb, Table, DatePicker } from 'antd';
 const { Header, Content, Footer } = Layout;
+const { RangePicker } = DatePicker;
 import '../assets/global.scss';
 import Chart from 'chart.js';
 import { TodayLinesOptions, TodayPieOptions } from '../chartOptions/todayCharts';
-import { getTodayHistory } from '../utils/history'
+import { getTodayHistory, getRangeHistory } from '../utils/history'
 import { groupByDay, sortByDomain, sortByUrl, computHour } from '../utils/utils'
 import moment from 'moment'
 
 moment.locale('zh-cn');
 
-export default class TodayPage extends Component {
+export default class HistoryPage extends Component {
 
   static propTypes = {
 
@@ -20,9 +21,13 @@ export default class TodayPage extends Component {
     super(props, context);
     this.updatePieChart = this.updatePieChart.bind(this)
     this.updateLineChart = this.updateLineChart.bind(this)
+    this.onDateChange = this.onDateChange.bind(this)
+    this.fetchHistory = this.fetchHistory.bind(this)
     this.state = {
         history: [],
-        urlList: []
+        urlList: [],
+        startDate: moment().subtract(10, 'days')._d.getTime(),
+        endDate: new Date().getTime()
     }
   }
 
@@ -31,19 +36,40 @@ export default class TodayPage extends Component {
       this._lineChart = new Chart(this._linesCTX, TodayLinesOptions);
       this._pieCTX = document.getElementById("pie");
       this._pieChart = new Chart(this._pieCTX, TodayPieOptions);
-      getTodayHistory().then(history => {
-        //   console.log(history.length)
-          // const todayTimes = groupByDay(history)
-          // console.log('todayTimes', todayTimes)
-          const urlList = sortByUrl(history)
-        //   console.log(urlList)
-          this.updatePieChart(history)
-          this.updateLineChart(history)
-          this.setState({
-              history,
-              urlList
-          })
-      })
+      const {startDate, endDate} = this.state
+      this.fetchHistory(startDate, endDate)
+  }
+
+  fetchHistory(startDate, endDate) {
+      if(startDate && endDate) {
+        getRangeHistory(startDate, endDate).then(history => {
+            const urlList = sortByUrl(history)
+            this.updatePieChart(history)
+            this.updateLineChart(history)
+            this.setState({
+                history,
+                urlList
+            })
+        })
+      } else {
+        getTodayHistory().then(history => {
+            const urlList = sortByUrl(history)
+            //   console.log(urlList)
+            this.updatePieChart(history)
+            this.updateLineChart(history)
+            this.setState({
+                history,
+                urlList
+            })
+        })   
+      }
+  }
+
+  onDateChange(date, dateString) {
+    console.log(date, dateString);
+    const startDate = new Date(dateString[0])
+    const endDate = new Date(dateString[1])
+    this.fetchHistory(startDate.getTime(), endDate.getTime())
   }
 
   updatePieChart(history) {
@@ -55,18 +81,21 @@ export default class TodayPage extends Component {
 
   updateLineChart(history) {
         const {hourLabels, hourData} = computHour(history)
-        console.log(hourLabels, hourData)
         this._lineChart.data.labels = hourLabels
         this._lineChart.data.datasets[0].data = hourData
         this._lineChart.update()
   }
 
   render() {
-      const history = this.state.history
+      const {history, startDate, endDate} = this.state
       return (
          <section className="today-page">
+              <RangePicker 
+                defaultValue={[moment(startDate), moment(endDate)]}
+                onChange={this.onDateChange}
+               />
              <div className="today">
-                 <h2>>>今日足迹</h2>
+                 <h2>>>历史足迹</h2>
                  <div className="info-blocks">
                      <div className="pv info-block">
                          <h2>{history.length}</h2> <p>次足迹</p>
@@ -84,7 +113,7 @@ export default class TodayPage extends Component {
                      </div>
                  </div>
              </div>
-             <TodayRank
+             <HistoryRank
                 data={this.state.urlList}
              />
          </section>
@@ -92,7 +121,7 @@ export default class TodayPage extends Component {
   }
 }
 
-class TodayRank extends Component {
+class HistoryRank extends Component {
     static defaultProps = {
         data: []
     }
@@ -104,7 +133,7 @@ class TodayRank extends Component {
     render() {
         return (
             <div className="today-rank">
-                <h2>>>今日排行</h2>
+                <h2>>>历史排行</h2>
                 <Table columns={columns} dataSource={this.props.data} />
             </div>
         )

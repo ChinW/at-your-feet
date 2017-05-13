@@ -93,3 +93,47 @@ export const sortByUrl = (mList) => {
     }
     return tmp;
 }
+
+export const sortByTime = (mList) => {
+    return mList.sort(function (a, b) {
+        return a.lastVisitTime - b.lastVisitTime;
+    });
+}
+
+export const computHour = (mList) => {
+    mList = sortByTime(mList);
+    console.log('mList', mList)
+    var tmp = [];
+
+    var mDate = new Date();
+    var hourMill = 60 * 60 * 1000;
+    var minMill = 60 * 1000;
+
+    var nowTime = mDate.getTime();
+    var todayTime = nowTime - (mDate.getHours() * hourMill + mDate.getMinutes() * minMill + mDate.getSeconds() * 1000 + mDate.getMilliseconds());
+
+    for (let i in mList) {
+        let mObj = mList[i];
+        var objTime = mObj.lastVisitTime;
+
+        var hour = Math.floor((objTime - todayTime) / hourMill);
+        if (tmp[hour] == null) {
+            tmp[hour]=[mObj]
+        } else {
+            tmp[hour].push(mObj);
+        }
+    }
+    const hourLabels = tmp.map((t, index) => {
+        return `${index}:00 - ${index + 1}:00`
+    })
+    if (hourLabels.length < 24) {
+        hourLabels.push(`${hourLabels.length}:00 - ${hourLabels.length + 1}:00`)
+    }
+    const hourData = tmp.map((t) => {
+        return t.length
+    })
+    if (hourData.length < 24) {
+        hourData.push(0)
+    }
+    return {hour: tmp, hourLabels, hourData};
+}

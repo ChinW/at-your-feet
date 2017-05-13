@@ -9,9 +9,18 @@ export async function getTodayHistory() {
     return history
 }
 
-export function getHistory(startTime = 0) {
+export async function getRangeHistory(start, end) {
+    let history = await getHistory(start, end)
+    return history
+}
+
+export function getHistory(startTime = 0, endTime = undefined) {
     return new Promise(resolve => {
-        chrome.history.search({text: '', maxResults: 0, startTime}, (history) => {
+        const searchOptions = {text: '', maxResults: 0, startTime}
+        if (endTime) {
+            searchOptions.endTime = endTime
+        }
+        chrome.history.search(searchOptions, (history) => {
             // console.log('resolve', history)
             resolve(history)
         });

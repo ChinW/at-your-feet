@@ -19,14 +19,15 @@ export default class AYTHeader extends Component {
         <Header style={{ position: 'fixed', width: '100%' }}>
             <div className="logo" />
             <Menu
+              onClick={this.props.changeMode}
                 theme="dark"
                 mode="horizontal"
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={['0']}
                 style={{ lineHeight: '64px' }}
             >
-                <Menu.Item key="1">今日</Menu.Item>
-                <Menu.Item key="2">自定义/历史</Menu.Item>
-                <Menu.Item key="3">设置</Menu.Item>
+                <Menu.Item key="0" >今日</Menu.Item>
+                <Menu.Item key="1" >自定义/历史</Menu.Item>
+                <Menu.Item key="2" >设置</Menu.Item>
             </Menu>
         </Header>
     );
