@@ -1,0 +1,15 @@
+doctype html
+
+html
+  head
+    meta(charset='UTF-8')
+    title 踪迹 At Your Feet
+    style.
+      html, body {
+        background-color: rgba(0,0,0,0)
+      }
+  body
+    #root
+    if env !== 'prod'
+      script(src='chrome-extension://lmhkpmbekcpmknklioeibfkpmmfibljd/js/redux-devtools-extension.js')
+    script(src=env == 'prod' ? '/js/todoapp.bundle.js' : 'https://localhost:3000/js/todoapp.bundle.js')

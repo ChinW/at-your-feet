@@ -1,0 +1,67 @@
+/**
+ * Created by Chi on 13/05/2017.
+ */
+
+$primary-color: #00C853;
+
+body {
+  //background: #fff;
+}
+
+.main-section {
+  background: #fff;
+  padding: 24px;
+  width: 100%;
+}
+
+.today {
+  width: 100%;
+  .info-blocks {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .info-block {
+      h2 {
+        font-size: 32px;
+        display: inline-block;
+        color: $primary-color;
+        margin-right: 5px;
+      }
+      p {
+        display: inline-block;
+      }
+    }
+    .time {
+      h2 {
+        font-size: 18px;
+        display: inline-block;
+      }
+    }
+  }
+  .charts {
+    display: flex;
+    .left {
+      width: 70% !important;
+      height: 300px !important;
+    }
+    .right {
+      width: 30% !important;
+      height: 300px !important;
+    }
+    #lines {
+      width: 100% !important;
+      height: 300px !important;
+    }
+    #pie {
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
+}
+
+.today-rank {
+  margin-top: 30px;
+  h2 {
+    margin: 10px 0;
+  }
+}
