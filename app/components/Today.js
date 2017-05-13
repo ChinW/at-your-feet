@@ -5,7 +5,7 @@ import '../assets/global.scss';
 import Chart from 'chart.js';
 import { TodayLinesOptions, TodayPieOptions } from '../chartOptions/todayCharts';
 import { getTodayHistory } from '../utils/history'
-import { groupByDay, sortByDomain, sortByUrl, computHour } from '../utils/utils'
+import { groupByDay, sortByDomain, sortByUrl, computHour,  } from '../utils/utils'
 import moment from 'moment'
 import { getDatas, saveDatas } from '../utils/storage'
 

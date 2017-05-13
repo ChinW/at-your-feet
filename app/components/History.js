@@ -66,7 +66,6 @@ export default class HistoryPage extends Component {
   }
 
   onDateChange(date, dateString) {
-    console.log(date, dateString);
     const startDate = new Date(dateString[0])
     const endDate = new Date(dateString[1])
     this.fetchHistory(startDate.getTime(), endDate.getTime())
@@ -80,9 +79,9 @@ export default class HistoryPage extends Component {
   }
 
   updateLineChart(history) {
-        const {hourLabels, hourData} = computHour(history)
-        this._lineChart.data.labels = hourLabels
-        this._lineChart.data.datasets[0].data = hourData
+        const {dayLabels, dayData} = groupByDay(history)
+        this._lineChart.data.labels = dayLabels
+        this._lineChart.data.datasets[0].data = dayData
         this._lineChart.update()
   }
 

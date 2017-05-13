@@ -17,17 +17,15 @@ export const groupByDay = (array) => {
             newArray[key] = [item];
         }
     });
-    const result = {};
-    for (let key in newArray){
-        result[new Date(key).getTime()] = newArray[key];
-    }
-    return result;
+    // const result = {};
+    // for (let key in newArray){
+    //     result[new Date(key).getTime()] = newArray[key];
+    // }
+    // console.log(newArray)
+    const dayLabels = Object.keys(newArray).reverse()
+    const dayData = dayLabels.map(key => newArray[key].length).reverse()
+    return { days: newArray, dayLabels, dayData };
 }
-
-export const getHour = (timestamp) => {
-    // let date = new Date(unixTime * 1000);
-}
-
 
 export const sortByDomain = (mList) => {
     var head = /([a-z0-9]+:\/\/)?/;
