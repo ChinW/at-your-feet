@@ -58,12 +58,17 @@ export function getCount(url) {
     }
 }
 //在原本Count基础上+1
-function addCount(url) {
+export function addCount(url) {
     if (hasData(url)) {
         var mData=JSON.parse(localStorage.getItem(url));
-        mData.lastVisitTime = new Date().getTIme();
+        mData.lastVisitTime = new Date().getTime();
         mData.count++;
         localStorage.setItem(url,JSON.stringify(mData));
+    } else {
+      var mData = {};
+      mData.lastVisitTime = new Date().getTime();
+      mData.count = 1;
+      localStorage.setItem(url,JSON.stringify(mData));
     }
 }
 //存在返回true,否则false

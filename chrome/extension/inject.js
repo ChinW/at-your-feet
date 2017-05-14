@@ -70,14 +70,14 @@ class InjectApp extends Component {
                 const target = hasData ? JSON.parse(data[link.href]) : {}
               return (
                 <div
-                  key={index} 
+                  key={index}
                   className={hasData ? 'ayf-link-item active' : 'ayf-link-item'}
                   style={{
                     top: position.top + 15,
                     left: position.left
                   }}
                 >
-                  {hasData ? `访问${target.visitCount}次: 最后访问于${moment(target.lastVisitTime).fromNow()}` : '未访问'}
+                  {hasData ? `访问${target.count}次: 最后访问于${moment(target.lastVisitTime).fromNow()}` : '未访问'}
                 </div>
               )
             })
