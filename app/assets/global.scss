@@ -125,3 +125,15 @@ body {
   opacity: 1;
   transition: all 2s ease-in;
 }
+
+.logo-menu {
+  display: inline-block;
+  float: left;
+  height: 63px;
+  vertical-align: baseline;
+  img {
+    display: inline-block;
+    width: 39px;
+    margin: 14px;
+  }
+}
