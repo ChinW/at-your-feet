@@ -92,6 +92,7 @@ export default class HistoryPage extends Component {
               <RangePicker 
                 defaultValue={[moment(startDate), moment(endDate)]}
                 onChange={this.onDateChange}
+                style={{float: "right"}}
                />
              <div className="today">
                  <h2>>>历史足迹</h2>
