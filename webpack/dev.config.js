@@ -69,6 +69,7 @@ const baseDevConfig = () => ({
             test: /\.css$/,
             loader: 'style!css'
         },
+        { test:/\.(png|jpg|ttf|ico|eot|svg|woff(2)?)$/, loader: "url-loader?limit=8192"},
     //     {
     //     test: /\.css$/,
     //   loaders: [

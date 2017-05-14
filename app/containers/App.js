@@ -8,6 +8,7 @@ import * as TodoActions from '../actions/todos';
 import { Layout} from 'antd';
 import { getHistory, getTodayHistory } from '../utils/history'
 import { getDatas, saveDatas, clearStorage } from '../utils/storage'
+import Landing from '../components/Landing'
 
 @connect(
   state => ({
@@ -27,7 +28,8 @@ export default class App extends Component {
     super(props)
     this.changeMode = this.changeMode.bind(this)
     this.state = {
-      mode: 0 //0, 1, 2
+        mode: 0, //0, 1, 2,
+        justASign: false
     }
   }
 
@@ -38,26 +40,34 @@ export default class App extends Component {
             saveDatas(history)
         })
     }
+    setTimeout(() => {
+        this.setState({
+            justASign: true
+        })
+    }, 1500);
     console.log('storageList', storageList.length)
   }
 
   changeMode(item) {
-    console.log('changeMode', item)
     this.setState({
       mode: parseInt(item.key)
     })
   }
 
   render() {
+      const justASign = this.state.justASign
     return (
         <Layout>
-            <AYTHeader
-              changeMode={this.changeMode}
-             />
-            <MainSection
-              mode={this.state.mode}
-             />
-            <ATYFooter />
+            <Landing justASign={justASign} />
+            <div className={justASign ? `wrapper fade-in` : `wrapper`}>
+                <AYTHeader
+                    changeMode={this.changeMode}
+                />
+                <MainSection
+                    mode={this.state.mode}
+                />
+                <ATYFooter />
+            </div>
         </Layout>
     );
   }
