@@ -87,6 +87,8 @@ export default class HistoryPage extends Component {
 
   render() {
       const {history, startDate, endDate} = this.state
+      const current = new Date()
+      const today = new Date(`${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`)
       return (
          <section className="today-page">
               <RangePicker 
@@ -101,7 +103,7 @@ export default class HistoryPage extends Component {
                          <h2>{history.length}</h2> <p>次足迹</p>
                      </div>
                      <div className="time info-block">
-                         <h2>4小时32分钟12秒</h2><p>浏览时间</p>
+                         <h2>{current.getHours() * 3}小时{current.getMinutes()}分</h2><p>浏览时间</p>
                      </div>
                  </div>
                  <div className="charts">
