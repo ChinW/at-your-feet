@@ -39,3 +39,5 @@ chrome.contextMenus.onClicked.addListener((event) => {
     popWindow('open');
   }
 });
+
+chrome.browserAction.onClicked.addListener(function(tab) { popWindow('open');});
